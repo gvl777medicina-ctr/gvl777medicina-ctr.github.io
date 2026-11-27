@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer"><meta name="robots" content="noindex">
+<title>Connecting… · GUVELI Publisher</title><link rel="icon" href="icon.svg"><link rel="stylesheet" href="estilo.css"></head><body>
+<header class="nav"><a class="logo" href="index.html"><img src="icon.svg" width="30" height="30" alt=""> GUVELI Publisher</a><nav><a href="terms.html">Terms of Service</a><a href="privacy.html">Privacy Policy</a></nav></header>
+<main class="legal">
+<h1 id="t">Finishing TikTok login…</h1>
+<p id="m" class="sub">Returning you to GUVELI Publisher on this Mac.</p>
+<p id="f" hidden>If nothing happens, make sure GUVELI Publisher is open on this Mac and <a id="l" href="#">click here to continue</a>.</p>
+</main>
+<script>
+// Forwards TikTok's OAuth response (code, state, scopes or error) to the GUVELI Publisher app running on this Mac.
+// The code is single-use, bound to this app's PKCE verifier and state, and is never stored or sent anywhere else.
+(function () {
+  var APP = 'http://localhost:5062/oauth/callback/';
+  var p = new URLSearchParams(window.location.search);
+  var out = new URLSearchParams();
+  ['code', 'state', 'scopes', 'error', 'error_description'].forEach(function (k) { if (p.has(k)) out.set(k, p.get(k)); });
+  if (!out.has('state')) {
+    document.getElementById('t').textContent = 'Nothing to do here';
+    document.getElementById('m').textContent = 'This page is only used to complete “Log in with TikTok” in GUVELI Publisher.';
+    return;
+  }
+  var destino = APP + '?' + out.toString();
+  history.replaceState(null, '', window.location.pathname);  // remove the code from the address bar/history
+  document.getElementById('l').href = destino;
+  setTimeout(function () { document.getElementById('f').hidden = false; }, 2500);
+  window.location.replace(destino);
+})();
+</script>
+</body></html>
